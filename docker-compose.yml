@@ -1,0 +1,64 @@
+version: "3.7"
+
+#Volumes
+volumes:
+  axilweb-dbdata:
+    driver: local
+
+services:
+    # image project
+    app:
+        container_name: axilweb-app-container
+        build:
+            context: .
+            dockerfile: ./.docker/php/Dockerfile
+        image: axilweb-app-image
+        restart: unless-stopped
+        working_dir: /var/www/
+        volumes:
+            - ./:/var/www
+        depends_on: 
+            - redis
+        networks: 
+            - axilweb-net
+
+    # nginx
+    nginx:
+        container_name: axilweb-nginx-container
+        image: nginx:alpine
+        restart: unless-stopped
+        ports: 
+            - "8899:80"
+        volumes: 
+            - ./:/var/www
+            - ./.docker/nginx/:/etc/nginx/conf.d/
+        networks: 
+            - axilweb-net
+
+    # db mysql
+    mysql:
+        image: mysql:8.0.28
+        restart: unless-stopped
+        tty: true
+        environment: 
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_ROOT_HOST: '%'
+        volumes: 
+            - ./.docker/mysql/my.cnf:/etc/my.cnf
+            - axilweb-dbdata:/var/lib/mysql/
+        ports: 
+            - "3399:3306"
+        networks: 
+            - axilweb-net
+
+    # redis
+    redis:
+        container_name: axilweb-redis-container
+        image: redis:latest
+        networks: 
+            - axilweb-net
+
+networks: 
+    axilweb-net:
+        driver: bridge
