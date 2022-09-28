@@ -3,6 +3,7 @@
 namespace Mashfiqdev\CouponManager\Http\Resources\Coupon;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Mashfiqdev\CouponManager\Http\Resources\CouponAssignment\CouponAssignmentCollection;
 
 class Coupon extends JsonResource {
 
@@ -24,6 +25,7 @@ class Coupon extends JsonResource {
             'fixed_amount'          => $this->fixed_amount,
             'percentage_off'        => $this->percentage_off,
             'expiration_date'       => $this->expiration_date,
+            'assignments'           => new CouponAssignmentCollection($this->assignments)
         ];
     }
 

@@ -12,4 +12,5 @@ export default {
 
     //Coupon Endpoints
     GET_COUPONS_URL: ROOT_URL + '/coupons',
+    ASSIGN_COUPON_URL: ROOT_URL + '/coupon-assign',
 }

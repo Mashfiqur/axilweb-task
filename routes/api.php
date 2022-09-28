@@ -4,6 +4,7 @@ use App\Http\Controllers\API\CourseController;
 use App\Http\Controllers\API\DepartmentController;
 use App\Http\Controllers\API\LoginController;
 use Illuminate\Support\Facades\Route;
+use Mashfiqdev\CouponManager\Http\Controllers\AssignCouponController;
 use Mashfiqdev\CouponManager\Http\Controllers\CouponManagerController;
 
 /*
@@ -30,4 +31,5 @@ Route::middleware('auth:api')->group( function () {
     Route::resource('coupons', CouponManagerController::class)->except([
         'create', 'edit'
     ]);
+    Route::post('coupon-assign', [AssignCouponController::class, 'store']);
 });

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -26,12 +27,15 @@ class Course extends Model
     }
 
     /**
-     * Get all of the department's coupons.
+     * Get the user's first name.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
      */
-    public function coupons()
+    protected function price(): Attribute
     {
-        return $this->morphMany(CouponAssignee::class, 'couponable');
+        return Attribute::make(
+            get: fn ($value) => $value,
+        );
     }
-
     
 }

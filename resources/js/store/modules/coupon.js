@@ -41,6 +41,13 @@ export default {
 					commit('SET_ERRORS',res)
                 }
 			}, true);
+        },
+        assignCoupon({commit}, payload){
+            ApiRequester.POST(ApiEndpoints.ASSIGN_COUPON_URL,payload, (res) => {
+				if (res?.success) {
+					router.push('/coupons')
+				}
+			}, true);
         }
         
     }

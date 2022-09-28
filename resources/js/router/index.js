@@ -29,7 +29,7 @@ const routes = [
             {path: ROOT_URL + '/courses', name: 'Courses', component: Courses, meta: {RequireAuth: true}},
             {path: ROOT_URL + '/coupons', name: 'Coupons', component: Coupons, meta: {RequireAuth: true}},
             {path: ROOT_URL + '/coupons/create', name: 'CreateCoupon', component: CreateCoupon, meta: {RequireAuth: true}},
-            {path: ROOT_URL + '/coupons/assign', name: 'CouponAssign', component: CouponAssign, meta: {RequireAuth: true}},
+            {path: ROOT_URL + '/coupons/assign/:id', name: 'CouponAssign', component: CouponAssign, meta: {RequireAuth: true}},
         ]
     },
     {

@@ -19,5 +19,8 @@ class Coupon extends Model
 
     protected $guarded = [];
 
+    public function assignments(){
+        return $this->hasMany(CouponAssignee::class);
+    }
     
 }

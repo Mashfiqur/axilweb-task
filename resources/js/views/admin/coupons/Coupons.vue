@@ -17,6 +17,7 @@
           <th>Type</th>
           <th>Amount</th>
           <th>Expiration Date</th>
+          <th>Assignments</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -27,7 +28,15 @@
           <td>{{ coupon.type ? coupon.type.toUpperCase() : "" }}</td>
           <td>{{ coupon.fixed_amount }}</td>
           <td>{{ coupon.expiration_date }}</td>
-          <td><router-link to="/coupon/assign">Assign</router-link></td>
+          <td>
+              <ul v-if="coupon.assignments.data.length">
+                <li v-for="assignment in coupon.assignments.data">
+                  <p v-if="assignment.course">Course: {{ assignment.course.name }}</p>
+                  <p v-if="assignment.department">Department: {{ assignment.department.name }}</p>
+                </li>
+              </ul>
+          </td>
+          <td><router-link :to="'/coupons/assign/' + coupon.id">Assign</router-link></td>
         </tr>
       </tbody>
     </table>
@@ -64,5 +73,7 @@ export default {
 </script>
 
 <style>
-
+  .content p{
+    color: black !important;
+  }
 </style>

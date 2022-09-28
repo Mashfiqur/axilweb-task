@@ -15,9 +15,17 @@ return new class extends Migration
     {
         Schema::create('coupon_assignees', function (Blueprint $table) {
             $table->id();
-            $table->text('body')->nullable();
-            $table->integer('couponable_id');
-            $table->string('couponable_type')->nullable();
+            $table->foreignId('coupon_id')
+                ->constrained()
+                ->onDelete('cascade');           
+            $table->foreignId('department_id')
+                ->nullable()
+                ->constrained()
+                ->onDelete('set null');  
+            $table->foreignId('course_id')
+                ->nullable()
+                ->constrained()
+                ->onDelete('set null');   
             $table->timestamp('created_at')->nullable()->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
             $table->softDeletes();

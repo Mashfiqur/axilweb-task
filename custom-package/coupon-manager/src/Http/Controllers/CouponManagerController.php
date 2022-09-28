@@ -22,7 +22,7 @@ class CouponManagerController extends Controller
 
     public function index(){
         return $this->sendResponse([
-            'coupons' => new CouponCollection($this->couponModel->get())
+            'coupons' => new CouponCollection($this->couponModel->with(['assignments', 'assignments.department', 'assignments.course'])->get())
         ]);
     }
 
