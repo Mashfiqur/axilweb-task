@@ -18,7 +18,13 @@ class CourseController extends Controller
 
     public function index(){
         return $this->sendResponse([
-            'courses' => new CourseCollection($this->courseModel->with(['department'])->get())
+            'courses' => new CourseCollection($this->courseModel->with([
+                'department',
+                'department.department_coupon',
+                'department.department_coupon.coupon',
+                'course_coupon',
+                'course_coupon.coupon'
+            ])->get())
         ]);
     }
 

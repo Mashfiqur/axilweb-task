@@ -3,6 +3,7 @@
 namespace Mashfiqdev\CouponManager\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Mashfiqdev\CouponManager\Http\Requests\Coupon\AssignCouponRequest;
 use Mashfiqdev\CouponManager\Models\Coupon;
 use Mashfiqdev\CouponManager\Models\CouponAssignee;
@@ -18,25 +19,44 @@ class AssignCouponController extends Controller
 
 
     public function store(AssignCouponRequest $request){
-        if($data = $request->validated()){
-            $couponAssignments = [];
+        DB::beginTransaction();
+        try{
+            if($data = $request->validated()){
+                $this->couponAssigneeModel->where('coupon_id', $data['coupon_id'])->delete();
 
-            foreach($data['departments'] as $department){
-                array_push($couponAssignments, [
-                    'coupon_id' => $data['coupon_id'],
-                    'department_id' => $department
-                ]);
+                $couponAssignments = [];
+    
+                foreach($data['departments'] as $department){
+                    array_push($couponAssignments, [
+                        'coupon_id' => $data['coupon_id'],
+                        'department_id' => $department,
+                        'course_id' => null
+                    ]);
+                }
+                foreach($data['courses'] as $course){
+                    array_push($couponAssignments, [
+                        'coupon_id' => $data['coupon_id'],
+                        'department_id' => null,
+                        'course_id' => $course
+                    ]);
+                }
+                
+
+                if(count($couponAssignments)){
+                    $success = $this->couponAssigneeModel->insert($couponAssignments);
+                    DB::commit();
+
+                    return $this->sendResponse([
+                        'data' => $success
+                    ]);
+                }
             }
-            foreach($data['courses'] as $course){
-                array_push($couponAssignments, [
-                    'coupon_id' => $data['coupon_id'],
-                    'course_id' => $course
-                ]);
-            }
-            
-            return $this->sendResponse([
-                'data' => $this->couponAssigneeModel->insert($couponAssignments)
-            ]);
+
         }
+        catch(\Exception $e){
+            DB::rollBack();
+            return $this->sendError([$e->getMessage()]);
+        }
+        
     }
 }

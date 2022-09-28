@@ -14,21 +14,21 @@
                 <li>
                     <router-link to="/departments">
                         <a>
-                            <i class="fa fa-fw fa-dashboard fa-lg"></i>Departments
+                            <i class="fa fa-fw fa-building-o fa-lg"></i>Departments
                         </a>
                     </router-link>
                 </li>
                 <li>
                     <router-link to="/courses">
                         <a>
-                            <i class="fa fa-fw fa-dashboard fa-lg"></i>Courses
+                            <i class="fa fa-fw fa-graduation-cap fa-lg"></i>Courses
                         </a>
                     </router-link>
                 </li>
                 <li>
                     <router-link to="/coupons">
                         <a>
-                            <i class="fa fa-fw fa-dashboard fa-lg"></i>Coupons
+                            <i class="fa fa-fw fa-envelope-open-o fa-lg"></i>Coupons
                         </a>
                     </router-link>
                 </li>

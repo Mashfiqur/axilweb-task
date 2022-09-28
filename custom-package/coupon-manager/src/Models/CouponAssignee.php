@@ -13,9 +13,12 @@ class CouponAssignee extends Model
     protected $table = "coupon_assignees";
     
     public function department(){
-        return $this->hasOne(Department::class, 'id', 'department_id');
+        return $this->belongsTo(Department::class, 'department_id', 'id');
     }
     public function course(){
-        return $this->hasOne(Course::class, 'id', 'course_id');
+        return $this->belongsTo(Course::class, 'course_id', 'id');
+    }
+    public function coupon(){
+        return $this->belongsTo(Coupon::class, 'coupon_id', 'id');
     }
 }

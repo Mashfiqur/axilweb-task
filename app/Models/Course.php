@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Mashfiqdev\CouponManager\Models\CouponAssignee;
 
 class Course extends Model
 {
@@ -27,15 +28,11 @@ class Course extends Model
     }
 
     /**
-     * Get the user's first name.
-     *
-     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     * Get the course's coupon.
      */
-    protected function price(): Attribute
+    public function course_coupon()
     {
-        return Attribute::make(
-            get: fn ($value) => $value,
-        );
+        return $this->hasOne(CouponAssignee::class, 'course_id', 'id');
     }
-    
+
 }

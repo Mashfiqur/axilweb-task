@@ -30,11 +30,11 @@ class AssignCouponRequest extends FormRequest
                 'exists:coupons,id'
             ],
             'departments' => [
-                'required',
+                'sometimes',
                 'array'
             ],
             'courses' => [
-                'required',
+                'sometimes',
                 'array'
             ],
             'departments.*' => [

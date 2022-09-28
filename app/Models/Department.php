@@ -27,10 +27,10 @@ class Department extends Model
     }
 
     /**
-     * Get all of the department's coupons.
+     * Get the department's coupon.
      */
-    public function coupons()
+    public function department_coupon()
     {
-        return $this->morphMany(CouponAssignee::class, 'couponable');
+        return $this->hasOne(CouponAssignee::class, 'department_id', 'id');
     }
 }

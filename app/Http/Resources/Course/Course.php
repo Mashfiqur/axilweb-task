@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Course;
 
+use App\Models\Course as CourseModel;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Course extends JsonResource {
@@ -14,7 +15,7 @@ class Course extends JsonResource {
      * @return array
      */
     public function toArray($request) {
-
+        
         return [
             'id'                    => $this->id,
             'name'                  => $this->name,
@@ -23,8 +24,26 @@ class Course extends JsonResource {
                 'id'                => $this->department->id,
                 'name'              => $this->department->name
             ],
-            'price'                 => $this->price,
+            'price'                 => $this->getPrice(),
         ];
+    }
+
+    protected function getPrice(){
+        $coupon = null;
+        $price = null;
+
+        if($this->department->department_coupon){
+            $coupon = $this->department->department_coupon->coupon;
+        }
+        if($this->course_coupon){
+            $coupon = $this->course_coupon->coupon;
+        }
+        if($coupon && $coupon->expiration_date <= date('Y-m-d')){
+            $price = $coupon->type = "fixed" ? ($this->price - $coupon->fixed_amount) 
+                         : $this->price - ($this->price * floatval($coupon->percentage_off)); 
+        }
+
+        return $price ? $price : $this->price;
     }
 
 }
